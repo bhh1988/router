@@ -1,0 +1,91 @@
+This document describes the environment for the VNS sr assignment.  You will
+login to a virtual topology like this one (the IP addresses will be different,
+but the nodes will be arranged identically):
+
+
+                                            Application Server
+                                        +====================+
+                                        |                    |
+                                        |   171.67.238.37    |
+                                        |                    |
+                                        +====================+
+                                                /
+                                               /
+                                              /
+                    eth0:                    /
+                   171.67.238.32            /     eth1: 171.67.238.36
+                           +============(eth1)==+
+                           |                    |
+  Internet =============(eth0)  Your Router     |
+                           |                    |
+                           +============(eth2)==+
+                                            \    eth2: 171.67.238.38
+                                             \
+                                              \
+                                               \
+                                        +====================+
+                                        |                    |
+                                        |  171.67.238.39     |
+                                        |                    |
+                                        +====================+
+                                           Application Server
+
+
+To connect to a topology, first compile the stub code.  Next, place your
+"auth_key" file (provided by the teaching staff) in the stub code folder.
+Finally, you can invoke sr as follows:
+
+  $ ./sr -u <SUNET_ID> -T '1-router 2-server' -s vns-2.stanford.edu -r rtable.vrhost
+
+Your output upon connecting should look like this:
+
+Using VNS sr stub code revised 2009-10-14 (rev 0.20)
+Loading filters
+---------------------------------------------
+no filters specified. accepting all connections.
+---------------------------------------------
+Client <SUID> connecting to Server vns-2.stanford.edu:3250
+Requesting topology template 1-router 2-server
+successfully authenticated as <SUID>
+Connected to new instantiation of topology template 1-router 2-server
+Loading routing table
+---------------------------------------------
+Destination	Gateway		Mask	Iface
+0.0.0.0		172.24.74.17	0.0.0.0	eth0
+171.67.238.37		171.67.238.37	255.255.255.254	eth1
+171.67.238.39		171.67.238.39	255.255.255.254	eth2
+---------------------------------------------
+Router interfaces:
+eth0	HWaddr00:57:23:31:84:b3
+	inet addr 171.67.238.32
+eth1	HWaddr00:fc:69:e8:e5:ad
+	inet addr 171.67.238.36
+eth2	HWaddr00:3a:23:0b:8f:88
+	inet addr 171.67.238.38
+ <-- Ready to process packets -->
+
+
+IMPORTANT: The system has more users than IP addresses, so you are not assigned
+a particular set of static IP addresses.  This means each time you connect you
+MAY receive a different set of IP addresses.  However, the system remembers the
+last IP block assigned to you and will always re-assign it to you unless someone
+else is currently using it (in which case you will get a new set of IP
+addresses).  Your routing table (stored in rtable.vrhost) will be automatically
+updated by the stub code.
+
+Please verify that you can see packets arriving to your topology when you try
+and ping one of your router interfaces.  To do this, connect to your topology as
+described above and try and ping eth0 (e.g., 171.67.238.32 in this example).
+
+ $ ping 171.67.238.32
+
+ You should see output from sr that looks like:
+
+ *** -> Received packet of length 42
+ *** -> Received packet of length 42
+ *** -> Received packet of length 42
+
+If so, everything is working!  If not, please email
+vns-support@lists.stanford.edu.
+
+Good Luck!

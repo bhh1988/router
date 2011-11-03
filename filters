@@ -1,0 +1,26 @@
+# Packet Filters
+# Networks can experience extraneous traffic from outside sources.
+# This has been common in the past, so if you find your router instance flooded
+# by packets from unknown sources, you can add a filter to block them. Filters
+# are disabled by default, but you can turn them on within this file.
+# For example, consider the following (commented out) filters:
+#
+#171.64.15.55/32
+#171.64.15.9/31 eth1
+#
+# The first filter is an IP address and a netmask. If this
+# filter is enabled, then sr will automatically drop all packets
+# that do not match the filter (i.e. that do not match the prefix
+# 171.64.15.55/32). This /32 is one end point, but you can set
+# filters like 171.64.0.0/16 or even 171.64.0.0/1.
+#
+# The second kind of filter, 171.64.15.9/31 eth1, is a filter that
+# forcibly injects all *incoming* packets that match the prefix into the
+# specified interface. That is, all packets coming from hosts matching
+# 171.64.15.9/31 eth1 will be seen to come in from eth1. This is useful for
+# testing tricky edge cases. While not necessary in this lab, this kind of
+# filter can be very useful in lab5. Note that filters only affect incoming
+# packets, not outgoing ones.
+#
+# (to comment lines in this file, ensure the FIRST character is #)
+#
